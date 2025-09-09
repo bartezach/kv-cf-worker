@@ -5,7 +5,7 @@
 {
 	"$schema": "node_modules/wrangler/config-schema.json",
 	"name": "kv-workers-2",
-	"main": "src/index.js",
+	"main": "src/rolloutAndIp.js",
 	"compatibility_date": "2025-07-24",
 	"observability": {
 		"enabled": true
@@ -15,7 +15,11 @@
     	{
     	  "binding": "RTE_KV",
     	  "id": "0939700c348148e39f0fdaa6c2dee97e"
-    	}
+    	},
+		{
+			"binding": "IP_KV",
+			"id": "1b5abf603dbe4d178c2a0286272a60b9"
+		}
   	]
 	/**
 	 * Smart Placement
