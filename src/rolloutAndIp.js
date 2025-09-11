@@ -35,6 +35,9 @@ export default {
       if (method === "POST") {
         return handleWhitelistPost(request, env, corsHeaders);
       }
+      if (method === "DELETE") {
+        return handleWhitelistDelete(request, env, corsHeaders);
+      }
     }
 
     return jsonResponse(404, { error: "Not found" }, corsHeaders);
@@ -136,6 +139,27 @@ async function handleWhitelistPost(request, env, corsHeaders) {
         message: body.key ? "Updated whitelist entry" : "Stored new whitelist entry",
         stored: { key, value: storedValue },
       },
+      corsHeaders
+    );
+  } catch {
+    return jsonResponse(400, { error: "Invalid JSON" }, corsHeaders);
+  }
+}
+
+async function handleWhitelistDelete(request, env, corsHeaders) {
+  try {
+    const body = await request.json();
+    const { key } = body;
+
+    if (!key) {
+      return jsonResponse(400, { error: "Missing key" }, corsHeaders);
+    }
+
+    await env.IP_KV.delete(key);
+
+    return jsonResponse(
+      200,
+      { message: `Deleted whitelist entry "${key}"` },
       corsHeaders
     );
   } catch {
